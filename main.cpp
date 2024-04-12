@@ -8,11 +8,14 @@
 #include "BloomFilterUseKernel.hpp"
 #include "RecordBatchHasher.hpp"
 
+clock_t total_time = 0;
+
 void runArrowBloomFilterHashJoinCompare(const std::shared_ptr<TupleSet> &leftTupleSet, const std::shared_ptr<TupleSet> &rightTupleSet,
                                         const std::vector<std::string> &leftColumnNames, const std::vector<std::string> &rightColumnNames,
                                         const std::set<std::string> &neededColumnNames, std::vector<int64_t> &bfOutSizes,
                                         std::vector<int64_t> &hjOutSizes) {
-    clock_t start, end;
+    total_time = 0;
+    // clock_t start, end;
     // bloom filter, basically copied from functions above
     bool bfOutRecorded = false;
     // create
@@ -25,7 +28,7 @@ void runArrowBloomFilterHashJoinCompare(const std::shared_ptr<TupleSet> &leftTup
     if (expHasher == nullptr) {
         assert(false);
     }
-    start = clock();
+    // start = clock();
     // auto expFilteredTupleSet =
         BloomFilterUseKernel::filter(rightTupleSet,
                                      bloomFilter,
@@ -37,8 +40,8 @@ void runArrowBloomFilterHashJoinCompare(const std::shared_ptr<TupleSet> &leftTup
     //     bfOutSizes.emplace_back(expFilteredTupleSet->numRows());
     //     bfOutRecorded = true;
     // }
-    end = clock();
-    std::cout << double(end - start) / CLOCKS_PER_SEC << std::endl;
+    // end = clock();
+    std::cout << double(total_time) / CLOCKS_PER_SEC << std::endl;
 }
 
 int main() {

@@ -5,6 +5,8 @@
 #include "RecordBatchHasher.hpp"
 #include "BloomFilter.hpp"
 
+extern clock_t total_time;
+
 class BloomFilterUseKernel {
 public:
   // use arrow blocked bloom filter (reuse hasher made by the caller)

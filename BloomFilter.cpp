@@ -177,13 +177,11 @@ void BlockedBloomFilter::Find(int64_t hardware_flags, int64_t num_rows,
                               bool enable_prefetch) const {
   int64_t num_processed = 0;
 
-  /*
   if (!(enable_prefetch && UsePrefetch()) &&
       (hardware_flags & arrow::internal::CpuInfo::AVX2)) {
     num_processed = Find_avx2(num_rows, hashes, result_bit_vector);
     num_processed -= (num_processed % 8);
   }
-  */
 
   ARROW_DCHECK(num_processed % 8 == 0);
   FindImp(num_rows - num_processed, hashes + num_processed,

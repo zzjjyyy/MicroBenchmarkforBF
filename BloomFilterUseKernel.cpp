@@ -48,7 +48,11 @@ BloomFilterUseKernel::filterRecordBatch(const std::shared_ptr<arrow::RecordBatch
     uint64_t* hashes = (uint64_t*) malloc(sizeof(uint64_t) * batchSize);
     hasher->hash(recordBatch, hashes);
     // filter to get bitvec
+    clock_t start, end;
+    start = clock();
     bloomFilter->Find(hasher->getHardwareFlags(), batchSize, hashes, bitVector);
+    end = clock();
+    total_time += end - start;
     free(hashes);
   
     // apply the bitvector to get filtered output
